@@ -253,6 +253,16 @@ class TestCut(object):
             'category')
         tm.assert_categorical_equal(result, expected)
 
+    def test_qcut_duplicates_on_left_edge(self):
+        result = qcut([1,1,1,1,2,3,4], 3, duplicates='drop')
+
+        ex_levels = IntervalIndex.from_intervals(
+            [Interval(0.999, 1.0),
+             Interval(1.0, 2.0),
+             Interval(2.0, 4.0)])
+
+        tm.assert_index_equal(result.categories, ex_levels)
+
     def test_round_frac(self):
         # it works
         result = cut(np.arange(11.), 2)
