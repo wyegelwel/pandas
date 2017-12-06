@@ -233,6 +233,9 @@ def _bins_to_cuts(x, bins, right=True, labels=None,
                              "can drop duplicate edges by setting "
                              "the 'duplicates' kwarg".format(bins=bins))
         else:
+            # Need to ensure min value is not removed by duplicates processing
+            if bins[0] == bins[1]:
+                unique_bins = np.append(bins[:1], unique_bins)
             bins = unique_bins
 
     side = 'left' if right else 'right'
